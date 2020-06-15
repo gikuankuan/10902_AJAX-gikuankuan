@@ -1,39 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>XMLHttpRequest</title>
-    <link rel="shortcut icon" href="#" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <h1 class="header">XMLHttpRequest</h1>
     <div class="title"></div>
     <h4></h4>
     <ul></ul>
-
-</body>
+  </body>
 </html>
 <script>
-    /********************************************************
-    * 1.api網址  https://kktix.com/events.json
-    * 2.宣告一個XMLHttpRequest物件
-    * 3.建立請求的各項設定及實質內容
-    * 4.建立得到回應時的各項行為
-    * 5.送出請求
-    ********************************************************/
+      /********************************************************
+      * 1.api網址  https://kktix.com/events.json
+      * 2.宣告一個XMLHttpRequest物件
+      * 3.建立請求的各項設定及實質內容
+      * 4.建立得到回應時的各項行為
+      * 5.送出請求
+      ********************************************************/
 
-    //宣告一個XMLHttpRequest物件
+      //宣告一個XMLHttpRequest物件
+          var xhr=new XMLHttpRequest
+
+      //建立請求的各項設定及實質內容
+      xhr.open(
+          'get',
+          'https://kktix.com/events.json',
+           true           //async 非同步
+      );
+      //建立得到回應時的各項設定及行為
+      xhr.onload=function(){
+          let type=xhr.getResponseHeader("Content-type");
+          let response = xhr.responseText
+          let res=JSON.parse(response);
+          console.log(res);
+          document.querySelector(".title").innerHTML=res.title;
+          document.querySelector("h4").innerHTML=res.updated;
+          let events=res.entry;
 
 
-    //建立請求的各項設定及實質內容
 
+          let str="";
+          events.forEach(function(event,index){
+                  str=str+`<li>${event.title}</li>`;
+          })
+          document.querySelector('ul').innerHTML = str;
+      }
 
-    //建立得到回應時的各項設定及行為
-
-
-    //送出請求
-
-    </script>
+   
+      //送出請求
+          xhr.send();
+</script>
